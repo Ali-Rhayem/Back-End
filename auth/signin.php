@@ -31,11 +31,11 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     $password_hash = $_POST['password_hash'];
 
     // Prepare the statement to check for user credentials
-    $stmt = $conn->prepare("SELECT user_id, email, password_hash, username FROM Users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT user_id, email, password_hash, username, role FROM Users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($user_id, $email, $hashed_password, $username);
+    $stmt->bind_result($user_id, $email, $hashed_password, $username, $role);
     $stmt->fetch();
     $user_exists = $stmt->num_rows();
 
@@ -47,6 +47,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             $res['user_id'] = $user_id;
             $res['username'] = $username;
             $res['email'] = $email;
+            $res['role'] = $role;
         } else {
             $res['status'] = "error";
             $res['message'] = "Incorrect password";
@@ -57,4 +58,4 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 } else {
     echo json_encode(["error" => "Wrong request method"]);
 }
-
+?>
