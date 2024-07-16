@@ -1,5 +1,5 @@
 <?php
-require "connection.php";
+require "../connection.php";
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
