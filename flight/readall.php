@@ -1,5 +1,5 @@
 <?php
-require "connection.php";
+require "../connection.php";
 
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $result->close();
 
     // Return flights data as JSON
-    echo json_encode($flights);
+    echo json_encode(["flights" => $flights]);
     exit;
 }
+?>
