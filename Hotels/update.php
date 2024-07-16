@@ -1,18 +1,21 @@
 <?php
 require "../connection.php";
+header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Max-Age: 86400');
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = $_POST["id"];
-    $name = $_POST["name"];
-    $city = $_POST["city"];
-    $country = $_POST["country"];
-    $address = $_POST["address"];
-    $available_rooms = $_POST['available_rooms'];
-    $price_per_night = $_POST['price_per_night'];
-    $rate = $_POST["rate"];
+    $name = $_POST["hotelName"];
+    $city = $_POST["hotelCity"];
+    $country = $_POST["hotelCountry"];
+    $address = $_POST["hotelAddress"];
+    $available_rooms = $_POST['hotelAvailableRooms'];
+    $price_per_night = $_POST['hotelPricePerNight'];
+    $rate = $_POST["hotelRate"];
     
     $stmt = $conn->prepare("UPDATE hotels SET name = ?, city = ?, country = ?, address = ?, available_rooms = ?, price_per_night = ?, rate = ? WHERE hotel_id = ?");
-    $stmt->bind_param('ssssiii', $name, $city, $country, $address, $available_rooms, $price_per_night, $rate, $id);
+    $stmt->bind_param('ssssiiii', $name, $city, $country, $address, $available_rooms, $price_per_night, $rate, $id);
     
     try {
         $stmt->execute();
