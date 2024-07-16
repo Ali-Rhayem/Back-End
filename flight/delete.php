@@ -25,8 +25,8 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Handle DELETE method for deleting flight
-if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
+// Handle POST method for deleting flight
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Get raw JSON data from the request body
     $inputJSON = file_get_contents('php://input');
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
     }
 
     // Extract flight ID from JSON
-    $flight_id = $inputData["flight_id"] ?? '';
+    $flight_id = $inputData["id"] ?? '';
 
     // Prepare SQL statement for deletion
     $stmt = $conn->prepare('DELETE FROM flights WHERE flight_id=?');
@@ -72,3 +72,4 @@ if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
 
 // Default response for unsupported methods
 echo json_encode(["error" => "Wrong request method"]);
+?>
