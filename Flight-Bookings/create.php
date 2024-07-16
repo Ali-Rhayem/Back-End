@@ -7,14 +7,12 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_id = $_POST["user_id"];
-    $hotel_id = $_POST["hotel_id"];
-    $check_in = $_POST["check_in"];
-    $check_out = $_POST["check_out"];
+    $flight_id= $_POST["check_in"];
     $booking_date = $_POST['booking_date'];
     $status = $_POST['status'];
     
-    $stmt = $conn->prepare('insert into hotelbookings (user_id, hotel_id,check_in_date,check_out_date,booking_date,status) values (?,?,?,?,?,?)');
-    $stmt->bind_param('iissss', $user_id,$hotel_id,$check_in, $check_out, $booking_date,$status);
+    $stmt = $conn->prepare('insert into bookings (user_id, flight_id,booking_date,status) values (?,?,?,?)');
+    $stmt->bind_param('iiss', $user_id,$flight_id, $booking_date,$status);
     try {
         $stmt->execute();
         echo json_encode(["message" => "new booking is created","status"=>"success"]);
