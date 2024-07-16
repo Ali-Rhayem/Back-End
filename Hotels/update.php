@@ -1,5 +1,8 @@
 <?php
 require "../connection.php";
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = $_POST["id"];
@@ -12,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $rate = $_POST["rate"];
     
     $stmt = $conn->prepare("UPDATE hotels SET name = ?, city = ?, country = ?, address = ?, available_rooms = ?, price_per_night = ?, rate = ? WHERE hotel_id = ?");
-    $stmt->bind_param('ssssiii', $name, $city, $country, $address, $available_rooms, $price_per_night, $rate, $id);
+    $stmt->bind_param('ssssiiii', $name, $city, $country, $address, $available_rooms, $price_per_night, $rate, $id);
     
     try {
         $stmt->execute();
@@ -24,6 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } catch (Exception $e) {
         echo json_encode(["error" => $stmt->error, "status" => "failure"]);
     }
+
+    $stmt->close();
+    $conn->close();
 } else {
     echo json_encode(["error" => "Wrong request method"]);
 }
