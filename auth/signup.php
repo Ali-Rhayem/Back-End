@@ -34,17 +34,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $created_at = date('Y-m-d H:i:s');
+    $role = "0";
 
     // Hash the password
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO users (username, password_hash, email, created_at) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, password_hash, email, created_at,role) VALUES (?, ?, ?, ?,?)");
     if ($stmt === false) {
         echo json_encode(["error" => "Error: " . $conn->error]);
         exit;
     }
-    $stmt->bind_param("ssss", $username, $password_hash, $email, $created_at);
+    $stmt->bind_param("sssss", $username, $password_hash, $email, $created_at,$role );
 
     // Execute the statement
     if ($stmt->execute()) {

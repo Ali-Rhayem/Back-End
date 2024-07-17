@@ -1,18 +1,32 @@
 <?php
 require "../connection.php";
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS"); 
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $flightId = $_POST['id'];
-    $flightNumber = $_POST['flight_number'];
-    $departureAirportId = $_POST['departure_airport_id'];
-    $arrivalAirportId = $_POST['arrival_airport_id'];
-    $departureTime = $_POST['departure_time'];
-    $arrivalTime = $_POST['arrival_time'];
-    $availableSeats = $_POST['available_seats'];
-    $price = $_POST['price'];
+    // Get raw JSON data from the request body
+    $inputJSON = file_get_contents('php://input');
+
+    // Decode JSON data
+    $inputData = json_decode($inputJSON, true);
+
+    // Ensure JSON data was decoded correctly
+    if ($inputData === null || json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(["error" => "Invalid JSON data"]);
+        exit;
+    }
+
+    // Extract data from JSON
+    $flightId = $inputData['id'] ?? null;
+    $flightNumber = $inputData['flight_number'] ?? null;
+    $departureAirportId = $inputData['departure_airport_id'] ?? null;
+    $arrivalAirportId = $inputData['arrival_airport_id'] ?? null;
+    $departureTime = $inputData['departure_time'] ?? null;
+    $arrivalTime = $inputData['arrival_time'] ?? null;
+    $availableSeats = $inputData['available_seats'] ?? null;
+    $price = $inputData['price'] ?? null;
 
     // Ensure all parameters are received
     if (isset($flightId, $flightNumber, $departureAirportId, $arrivalAirportId, $departureTime, $arrivalTime, $availableSeats, $price)) {
