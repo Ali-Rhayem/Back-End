@@ -1,9 +1,5 @@
 <?php
-<<<<<<< HEAD
-require "../connection.php";
-=======
 require "../connection.php"; // Ensure this file correctly sets up $conn
->>>>>>> dabce190e6b7e3661e0bf828c9bb335283f07201
 
 header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
 header('Content-type: application/json; charset=utf-8');
@@ -17,11 +13,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-<<<<<<< HEAD
-
-=======
     }
->>>>>>> dabce190e6b7e3661e0bf828c9bb335283f07201
     exit(0);
 }
 
@@ -35,16 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $booking_date = date('Y-m-d H:i:s');
     $status = 'Pending';
 
-<<<<<<< HEAD
-    $stmt = $conn->prepare('INSERT INTO TaxiBookings (user_id, taxi_id, pickup_location, dropoff_location, booking_date, pickup_date, status) VALUES (?, ?, ?, ?, ?, ?, ?)');
-    $stmt->bind_param('iisssss', $user_id, $taxi_id, $pickup_location, $dropoff_location, $booking_date, $pickup_date, $status);
-    
-    try {
-        $stmt->execute();
-        echo json_encode(["message" => "New taxi booking is created", "status" => "success"]);
-    } catch (Exception $e) {
-        echo json_encode(["error" => $stmt->error]);
-=======
     // Check if the connection is established
     if ($conn) {
         // Prepare and execute the SQL statement
@@ -61,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         error_log("Database connection error: " . mysqli_connect_error());
         echo json_encode(["error" => "Database connection failed"]);
->>>>>>> dabce190e6b7e3661e0bf828c9bb335283f07201
     }
 } else {
     echo json_encode(["error" => "Wrong request method"]);
